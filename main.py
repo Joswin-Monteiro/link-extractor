@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import sys
 
+# Display help 
 def help():
     print('''Usage:
 python main.py [link]
@@ -9,6 +10,7 @@ python main.py [link]
 Example:
 python main.py https://www.google.com''')
 
+# Extract link fromm command link argument
 link = ''
 try:
     link = sys.argv[1]
@@ -19,6 +21,7 @@ except IndexError:
 if link == "-h" or link=="--help":
     help()
 else:
+    # Request the code and extract links from the html page
     try:
         r = requests.get(link)
     except:
@@ -27,6 +30,8 @@ else:
     soup = BeautifulSoup(r.content.decode(), 'html.parser')
 
     linkText = ""
+
+    # Write the links to links.txt file
     with open("links.txt", "a") as file:
         for i in soup.find_all('a'):
             linkText += str(i) 
